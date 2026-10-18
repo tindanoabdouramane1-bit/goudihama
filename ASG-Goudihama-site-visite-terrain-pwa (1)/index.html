@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASG-SARL – Agence de Sécurité Goudihama | Sécurité privée au Burkina Faso</title>
+<meta name="description" content="ASG-SARL, Agence de Sécurité Goudihama : gardiennage, sécurité électronique, cynophile, protection rapprochée, escorte, audit et formation à Ouagadougou et au Burkina Faso. Disponible 24h/24 et 7j/7.">
+<meta name="theme-color" content="#0a5fae">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ASG-SARL">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+<meta property="og:site_name" content="ASG-SARL – Agence de Sécurité Goudihama">
+<meta property="og:locale" content="fr_FR">
+<style>
+#splash{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(160deg,#0a5fae 0%,#062f5f 100%);color:#fff;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;transition:opacity .45s ease,visibility .45s ease;perspective:700px}
+#splash.out{opacity:0;visibility:hidden}
+#splash img{width:min(52vw,210px);height:auto;transform-style:preserve-3d;animation:asgSpin 1.5s cubic-bezier(.45,.05,.25,1) both;filter:drop-shadow(0 8px 22px rgba(0,0,0,.35))}
+#splash b{font-size:1.45rem;letter-spacing:.5px;opacity:0;animation:asgFade .5s .9s ease forwards}
+#splash small{font-size:.9rem;opacity:0;animation:asgFade .5s 1.05s ease forwards;color:#ffc20e;font-weight:600}
+#splash i{display:block;width:84px;height:3px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden;margin-top:6px}
+#splash i::after{content:'';display:block;height:100%;width:100%;background:#ffc20e;transform:translateX(-100%);animation:asgBar 1.7s ease-in-out forwards}
+html.splash-on,html.splash-on body{overflow:hidden}
+@keyframes asgSpin{0%{transform:rotateY(0) scale(.6);opacity:0}18%{opacity:1}100%{transform:rotateY(720deg) scale(1);opacity:1}}
+@keyframes asgFade{to{opacity:1}}
+@keyframes asgBar{to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){#splash img{animation:none}#splash i::after{animation-duration:.6s}}
+</style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="splash" role="presentation" aria-hidden="true"><img src="images/emblem-blanc.png" alt=""><b>ASG-SARL</b><small>Votre sécurité, notre priorité</small><i></i></div>
+<script>
+(function () {
+    var s = document.getElementById('splash'), de = document.documentElement, seen = false;
+    function done() { if (!s) return; s.classList.add('out'); var x = s; s = null; setTimeout(function () { x.remove(); de.classList.remove('splash-on'); }, 480); }
+    try { seen = sessionStorage.getItem('asg-splash') === '1'; } catch (e) {}
+    if (!window.matchMedia('(max-width: 900px)').matches || seen) { s.remove(); s = null; return; }   // téléphone/tablette, une fois par ouverture
+    try { sessionStorage.setItem('asg-splash', '1'); } catch (e) {}
+    de.classList.add('splash-on');
+    s.addEventListener('click', done);
+    setTimeout(done, 1900);
+})();
+</script>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<!-- ========== EN-TÊTE ========== -->
+<div class="app">
+<header class="shell" id="top">
+    <!-- barre du haut (téléphone et tablette) -->
+    <div class="topbar" id="navBar">
+        <a href="#accueil" class="tb-brand" aria-label="ASG-SARL – accueil"><img src="images/emblem-or.png" alt=""><span><b>ASG-SARL</b><small>Agence de Sécurité Goudihama</small></span></a>
+        <a href="#devis" class="tb-cta" aria-label="Demander un devis"><i class="fas fa-file-signature"></i></a>
+        <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="sidebar"><i class="fas fa-bars"></i></button>
+    </div>
+
+    <!-- menu vertical -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigation">
+        <a href="#accueil" class="sb-logo" aria-label="ASG-SARL – accueil"><img src="images/logo-or.png" alt="ASG – Agence de Sécurité Goudihama"></a>
+        <p class="sb-tag"><i class="fas fa-star"></i> Votre sécurité, notre priorité</p>
+        <nav class="menu" id="menu" aria-label="Menu principal">
+            <a href="#accueil" data-page="accueil"><i class="fas fa-house"></i><span>Accueil</span></a>
+            <div class="dd">
+                <a href="#apropos" data-page="apropos"><i class="fas fa-building-shield"></i><span>Présentation</span><i class="fas fa-chevron-down caret"></i></a>
+                <div class="dd-panel">
+                    <a href="#apropos">Qui sommes-nous ?</a>
+                    <a href="#apropos" data-anchor="directeur">Le mot du Directeur Général</a>
+                    <a href="#methode">Organisation &amp; méthode</a>
+                    <a href="#methode" data-anchor="formation">Recrutement &amp; formation</a>
+                    <a href="#references">Secteurs protégés</a>
+                    <a href="#faq">Questions fréquentes</a>
+                </div>
+            </div>
+            <div class="dd">
+                <a href="#services" data-page="services"><i class="fas fa-shield-halved"></i><span>Nos services</span><i class="fas fa-chevron-down caret"></i></a>
+                <div class="dd-panel" id="ddServices"></div>
+            </div>
+            <a href="#moyens" data-page="moyens"><i class="fas fa-tower-broadcast"></i><span>Nos moyens</span></a>
+            <a href="#tarifs" data-page="tarifs"><i class="fas fa-tags"></i><span>Tarifs</span><em class="tag-new">−15 %</em></a>
+            <div class="dd">
+                <a href="#actualites" data-page="actualites"><i class="fas fa-newspaper"></i><span>Actualités</span><i class="fas fa-chevron-down caret"></i></a>
+                <div class="dd-panel">
+                    <a href="#actualites">Toutes les actualités</a>
+                    <a href="#mediatheque">Médiathèque</a>
+                    <a href="#presse">Espace presse</a>
+                </div>
+            </div>
+            <a href="#recrutement" data-page="recrutement"><i class="fas fa-user-plus"></i><span>Carrières</span></a>
+            <a href="#contact" data-page="contact"><i class="fas fa-envelope-open-text"></i><span>Contact</span></a>
+        </nav>
+        <div class="sb-foot">
+            <a class="sb-call" data-phone-link href="#"><i class="fas fa-phone-volume"></i><span><small>PC radio · 24h/24</small><b data-bind="contact.phone1"></b></span></a>
+            <a href="#devis" class="btn btn-accent btn-block"><i class="fas fa-file-signature"></i> Devis gratuit</a>
+        </div>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+</header>
+
+<div class="main-col" id="mainCol">
+<!-- menu horizontal (accès rapide) -->
+<nav class="hnav" id="hnav" aria-label="Accès rapide">
+    <div class="hn-dd">
+        <a href="#apropos" data-hpage="apropos"><i class="fas fa-building-shield"></i> Présentation <i class="fas fa-chevron-down hn-caret"></i></a>
+        <div class="hn-panel">
+            <a href="#apropos">Qui sommes-nous ?</a>
+            <a href="#apropos" data-anchor="directeur">Le mot du Directeur Général</a>
+            <a href="#methode">Organisation &amp; méthode</a>
+            <a href="#methode" data-anchor="formation">Recrutement &amp; formation</a>
+            <a href="#references">Secteurs protégés</a>
+            <a href="#faq">Questions fréquentes</a>
+        </div>
+    </div>
+    <div class="hn-dd">
+        <a href="#services" data-hpage="services"><i class="fas fa-shield-halved"></i> Services <i class="fas fa-chevron-down hn-caret"></i></a>
+        <div class="hn-panel" id="hnServices"></div>
+    </div>
+    <a href="#tarifs" data-hpage="tarifs"><i class="fas fa-tags"></i> Tarifs</a>
+    <a href="#contact" data-hpage="contact"><i class="fas fa-envelope-open-text"></i> Contact</a>
+    <span class="hn-sp"></span>
+    <a class="hn-phone" data-phone-link href="#"><i class="fas fa-phone"></i> <span data-bind="contact.phone1"></span></a>
+    <a href="#devis" class="hn-devis" data-hpage="devis"><i class="fas fa-file-signature"></i> Devis gratuit</a>
+</nav>
+<main id="main">
+
+<!-- ========== ACCUEIL ========== -->
+<section class="page" id="p-accueil" data-title="Accueil">
+    <div class="hero" id="heroBg">
+        <div class="hero-text">
+            <span class="kicker"><i class="fas fa-star"></i> <span data-bind="hero.slogan"></span></span>
+            <h1 data-bind="hero.title"></h1>
+            <p data-bind="hero.intro"></p>
+            <div class="hero-btns">
+                <a href="#devis" class="btn btn-accent"><i class="fas fa-file-signature"></i> Demander un devis gratuit</a>
+                <a href="#services" class="btn btn-glass">Nos services <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <a href="#actualites" class="hero-une" id="heroUne" hidden><b>À la une</b><span>Visite de terrain du responsable : voir le reportage</span><i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+            <div class="hero-emblem"><img src="images/emblem-blanc.png" alt=""></div>
+            <div class="hero-chips">
+                <div class="hero-chip"><i class="fas fa-stamp"></i><span><b>Autorisé</b>Arrêté n° 2026-0537/MSECU</span></div>
+                <div class="hero-chip"><i class="fas fa-stopwatch"></i><span><b>&lt; 10 min</b>Intervention sur site</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="stats-band"><div class="stats" id="statsGrid"></div></div>
+
+    <div class="wrap section">
+        <div class="sec-head"><div><span class="eyebrow">Nos services</span><h2 class="h-title">Une offre complète, un seul interlocuteur</h2></div><a href="#services" class="link-more">Tous les services <i class="fas fa-arrow-right"></i></a></div>
+        <div class="svc-cards" id="homeServices"></div>
+    </div>
+
+    <div class="section terrain" id="homeTerrain" hidden><div class="wrap terrain-wrap">
+        <div class="terrain-body" id="terrainBody"></div>
+        <div class="terrain-mosaic" id="terrainMosaic"></div>
+    </div></div>
+
+    <div class="section tint" id="homeRaisons"><div class="wrap">
+        <div class="sec-head"><div><span class="eyebrow">Pourquoi choisir ASG-SARL ?</span><h2 class="h-title">Sept raisons de nous confier votre sécurité</h2></div></div>
+        <div class="raisons" id="raisonsGrid"></div>
+    </div></div>
+
+    <div class="wrap section about-block">
+        <div class="framed-img" id="homeAboutImg"><div class="xp-badge"><b data-bind="apropos.annees"></b><span data-bind="apropos.badgeLabel"></span></div></div>
+        <div>
+            <span class="eyebrow">Qui sommes-nous ?</span>
+            <h2 class="h-title">Une société burkinabè de sécurité privée</h2>
+            <p data-bind="apropos.intro1"></p>
+            <ul class="check" data-list="apropos.pourquoi"></ul>
+            <a href="#apropos" class="btn btn-dark">Découvrir ASG-SARL <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <div class="offre-band" id="homeOffre"><div class="offre-inner">
+            <div class="offre-val"><b data-bind="tarifs.offre.valeur"></b><span data-bind="tarifs.offre.texte"></span></div>
+            <div class="offre-txt"><span class="eyebrow light"><span data-bind="tarifs.offre.titre"></span></span><h2 data-bind="tarifs.offre.echeance"></h2><p id="homeOffreTxt">Devis gratuit et personnalisé sous 48h après visite du site.</p></div>
+            <div class="offre-btns"><a href="#tarifs" class="btn btn-white"><i class="fas fa-tags"></i> Nos tarifs</a><a href="#devis" class="btn btn-accent">Devis gratuit</a></div>
+        </div></div>
+    </div>
+
+    <div class="wrap section">
+        <div class="dg-card">
+            <div class="dg-photo" id="homePdgPhoto"></div>
+            <div class="dg-text">
+                <span class="eyebrow light">Le mot du Directeur Général</span>
+                <blockquote data-bind="pdg.quote"></blockquote>
+                <p class="dg-name" data-bind="pdg.name"></p>
+                <p class="dg-role" data-bind="pdg.title"></p>
+                <a href="#apropos" data-anchor="directeur" class="btn btn-white btn-sm">Lire le message complet <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section tint"><div class="wrap">
+        <div class="sec-head center"><div><span class="eyebrow">Nos valeurs</span><h2 class="h-title">Cinq valeurs fondamentales</h2></div></div>
+        <div class="value-grid" id="valuesGrid"></div>
+    </div></div>
+
+    <div class="section vid-section" id="homeVideo"><div class="wrap vid-wrap">
+        <div class="vid-text">
+            <span class="eyebrow">Vidéo institutionnelle</span>
+            <h2 class="h-title" data-bind="video.titre"></h2>
+            <p data-bind="video.texte"></p>
+        </div>
+        <div class="vid-player" id="homeVideoPlayer"></div>
+    </div></div>
+
+    <div class="wrap section">
+        <div class="sec-head"><div><span class="eyebrow">Actualités</span><h2 class="h-title">Dernières nouvelles</h2></div><a href="#actualites" class="link-more">Toutes les actualités <i class="fas fa-arrow-right"></i></a></div>
+        <div class="news-grid" id="homeNews"></div>
+    </div>
+
+    <div class="section tint" id="homeMedia"><div class="wrap">
+        <div class="sec-head"><div><span class="eyebrow">Médiathèque</span><h2 class="h-title">ASG-SARL en images</h2></div><a href="#mediatheque" class="link-more">Toute la médiathèque <i class="fas fa-arrow-right"></i></a></div>
+        <div class="media-grid" id="homeMediaGrid"></div>
+    </div></div>
+    <div class="band247" data-band></div>
+</section>
+
+<!-- ========== À PROPOS ========== -->
+<section class="page" id="p-apropos" data-title="À propos de nous">
+    <div class="banner"><div class="wrap"><h1>À propos de nous</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>À propos</span></div></div></div>
+
+    <div class="wrap section">
+        <div class="framed-img wide" id="aboutImg"><div class="xp-badge"><b data-bind="apropos.annees"></b><span data-bind="apropos.badgeLabel"></span></div></div>
+        <div class="about-text">
+            <span class="eyebrow">ASG-SARL</span>
+            <h2 class="h-title">Qui sommes-nous ?</h2>
+            <p data-bind="apropos.intro1"></p>
+            <p data-bind="apropos.intro2"></p>
+            <h3 class="h-sub">Pourquoi choisir ASG-SARL ?</h3>
+            <ul class="check" data-list="apropos.pourquoi"></ul>
+        </div>
+    </div>
+
+    <div class="section texture"><div class="wrap">
+        <div class="mvv">
+            <div class="mvv-card"><i class="fas fa-clipboard-list"></i><h3>Mission</h3><p data-bind="apropos.mission"></p></div>
+            <div class="mvv-card"><i class="fas fa-binoculars"></i><h3>Vision</h3><p data-bind="apropos.vision"></p></div>
+            <div class="mvv-card"><i class="fas fa-square-check"></i><h3>Valeurs</h3><p data-bind="apropos.valeurs"></p></div>
+            <div class="mvv-card wide"><i class="fas fa-bullseye"></i><h3>Objectifs</h3><ul class="check" data-list="apropos.objectifs"></ul></div>
+        </div>
+    </div></div>
+
+    <div class="expertise" id="expertiseBg">
+        <div class="exp-left"><h2 data-bind="expertise.titre"></h2><span class="exp-line"></span></div>
+        <div class="exp-right"><p data-bind="expertise.texte"></p><div id="skills"></div></div>
+    </div>
+
+    <div class="wrap section" id="directeur">
+        <div class="director">
+            <div class="director-photo" id="pdgPhoto"></div>
+            <div>
+                <span class="eyebrow">Le mot du Directeur Général</span>
+                <div class="dg-letter" id="pdgMot"></div>
+                <p class="dg-sign"><b data-bind="pdg.name"></b><span data-bind="pdg.title"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section texture"><div class="wrap">
+        <div class="legal-frame">
+            <span class="eyebrow">Cadre légal</span>
+            <h2 class="h-title">Une activité strictement encadrée</h2>
+            <p>ASG-SARL est régulièrement constituée et autorisée à exercer sur l'ensemble du territoire burkinabè, conformément à la réglementation en vigueur sur les sociétés privées de gardiennage.</p>
+            <div class="id-table" id="idTable"></div>
+            <p class="small-note"><i class="fas fa-gavel"></i> Le port d'arme par nos agents s'exerce uniquement dans le cadre des autorisations prévues par la réglementation.</p>
+        </div>
+    </div></div>
+
+    <div class="wrap section faq-zone">
+        <div>
+            <span class="eyebrow">FAQ</span>
+            <h2 class="h-title">Questions fréquentes</h2>
+            <p>Trouvez rapidement les réponses à vos questions sur nos services.</p>
+            <div class="ask-box"><h3>Vous avez des questions ?</h3><p>Une préoccupation qui n'est pas abordée ici ?</p><a class="btn btn-outline" data-contact-btn href="#contact">Nous contacter</a></div>
+        </div>
+        <div class="faq" data-faq></div>
+    </div>
+    <div class="band247" data-band></div>
+</section>
+
+<!-- ========== SERVICES ========== -->
+<section class="page" id="p-services" data-title="Nos services">
+    <div class="banner"><div class="wrap"><h1>Nos services</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Nos services</span></div></div></div>
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Ce que nous faisons</span><h2 class="h-title">Des solutions de sécurité complètes</h2><p>Une gamme complète de prestations, modulables selon vos besoins, sous l'arrêté d'autorisation n° 2026-0537/MSECU/CAB/DGSI/DRSP.</p></div>
+        <div class="svc-cards grid3" data-svc-cards="all"></div>
+    </div>
+    <div class="section texture" id="moyensApercu"><div class="wrap">
+        <div class="center-head"><span class="eyebrow">Nos moyens</span><h2 class="h-title">Des ressources à la hauteur de vos exigences</h2></div>
+        <div class="equip-grid" id="moyensGrid"></div>
+        <div style="text-align: center; margin-top: 2rem;"><a href="#moyens" class="btn btn-dark"><i class="fas fa-toolbox"></i> Tous nos moyens et équipements</a></div>
+    </div></div>
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Couverture</span><h2 class="h-title">Zones d'intervention</h2></div>
+        <div class="zone-grid" id="zonesGrid"></div>
+        <div class="cso"><i class="fas fa-tower-broadcast"></i><div><h3>Poste de Commandement radio 24h/24</h3><p data-bind="cso"></p></div></div>
+    </div>
+    <div class="band247" data-band></div>
+</section>
+
+<!-- ========== DÉTAIL D'UN SERVICE ========== -->
+<section class="page" id="p-service" data-title="Service">
+    <div class="banner"><div class="wrap"><h1 id="svcTitle"></h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <a href="#services">Nos services</a> <i class="fas fa-angle-right"></i> <span id="svcCrumb"></span></div></div></div>
+    <div class="wrap section svc-detail">
+        <article>
+            <div class="svc-detail-img" id="svcImg"></div>
+            <h2 class="h-title" id="svcH2"></h2>
+            <p class="lead" id="svcDesc"></p>
+            <div id="svcDetails"></div>
+            <a href="#devis" class="btn btn-accent" id="svcDevisBtn" style="margin-top: 1.5rem;"><i class="fas fa-file-signature"></i> Demander un devis pour ce service</a>
+        </article>
+        <aside>
+            <div class="side-box"><h3>Nos services</h3><div id="svcSideList"></div></div>
+            <div class="side-box dark"><i class="fas fa-headset"></i><h3>Besoin d'aide ?</h3><p>Notre équipe vous répond 24h/24 et 7j/7.</p><a class="side-phone" data-phone-link href="#"><span data-bind="contact.phone1"></span></a></div>
+        </aside>
+    </div>
+</section>
+
+<!-- ========== MOYENS ET ÉQUIPEMENTS ========== -->
+<section class="page" id="p-moyens" data-title="Nos moyens et équipements">
+    <div class="banner"><div class="wrap"><h1>Nos moyens et équipements</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Nos moyens et équipements</span></div></div></div>
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Moyens humains et matériels</span><h2 class="h-title">Équipés pour chaque mission</h2><p data-bind="moyensIntro"></p></div>
+        <div class="filters" id="moyensFilters"></div>
+        <div class="kit-grid" id="kitGrid"></div>
+    </div>
+    <div class="band247" data-band></div>
+</section>
+
+<!-- ========== ESPACE PRESSE ========== -->
+<section class="page" id="p-presse" data-title="Espace presse">
+    <div class="banner"><div class="wrap"><h1>Espace presse</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Espace presse</span></div></div></div>
+    <div class="wrap section press-layout">
+        <div>
+            <span class="eyebrow">Médias, partenaires et institutions</span>
+            <h2 class="h-title">Ressources officielles</h2>
+            <p data-bind="presse.intro"></p>
+            <div class="press-pres"><h3>Présentation officielle</h3><p data-bind="apropos.intro1"></p><p data-bind="apropos.intro2"></p></div>
+            <div id="pressGroups"></div>
+        </div>
+        <aside>
+            <div class="side-box" id="pressContact"></div>
+            <div class="side-box"><h3>Derniers communiqués</h3><div id="pressNews"></div></div>
+        </aside>
+    </div>
+</section>
+
+<!-- ========== ORGANISATION & MÉTHODE ========== -->
+<section class="page" id="p-methode" data-title="Organisation &amp; méthode">
+    <div class="banner"><div class="wrap"><h1>Organisation &amp; méthode</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Organisation &amp; méthode</span></div></div></div>
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Notre organisation</span><h2 class="h-title">Une équipe structurée en trois niveaux</h2><p data-bind="organisation.intro"></p></div>
+        <h3 class="lvl-title"><span>1</span> La Direction administrative</h3>
+        <div class="team-grid" id="teamDirection"></div>
+        <h3 class="lvl-title"><span>2</span> L'encadrement technique</h3>
+        <div class="team-grid" id="teamEncadrement"></div>
+        <h3 class="lvl-title"><span>3</span> Les agents opérationnels</h3>
+        <ul class="check agents-list" data-list="organisation.agents"></ul>
+    </div>
+
+    <div class="section texture" id="formation"><div class="wrap">
+        <div class="center-head"><span class="eyebrow">Recrutement &amp; formation</span><h2 class="h-title">3 mois de formation, 12 modules homologués</h2><p data-bind="formation.intro"></p></div>
+        <div class="form-layout">
+            <div class="crit-box"><h3><i class="fas fa-user-check"></i> Critères de recrutement</h3><ul class="check" data-list="formation.criteres"></ul></div>
+            <ol class="modules" id="modulesGrid"></ol>
+        </div>
+    </div></div>
+
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Méthodologie opérationnelle</span><h2 class="h-title">Disponibilité 24h/24 — 7j/7</h2><p data-bind="methode.dispo"></p></div>
+        <div class="method-grid">
+            <div class="horaires-box">
+                <h3><i class="far fa-clock"></i> Horaires de travail</h3>
+                <table class="tbl" id="horairesTbl"></table>
+                <p class="small-note" data-bind="methode.horairesNote"></p>
+            </div>
+            <div class="ctrl-cards">
+                <div class="ctrl"><span class="ctrl-n">01</span><h3>Contrôle programmé</h3><p data-bind="methode.controleProgramme"></p></div>
+                <div class="ctrl"><span class="ctrl-n">02</span><h3>Contrôle inopiné</h3><p data-bind="methode.controleInopine"></p></div>
+            </div>
+        </div>
+        <div class="patrol"><i class="fas fa-car-on"></i><div><h3>Plan de patrouille et d'intervention</h3><p data-bind="methode.patrouille"></p></div></div>
+        <div class="two-col">
+            <div class="side-box"><h3><i class="fas fa-book"></i> Registres tenus sur chaque poste</h3><ul class="check" data-list="methode.registres"></ul></div>
+            <div class="side-box"><h3><i class="fas fa-shirt"></i> Dotation annuelle de chaque agent</h3><table class="tbl tbl-sm" id="dotationTbl"></table></div>
+        </div>
+    </div>
+    <div class="slogan-band"><div class="wrap"><p>« La qualité d'une prestation efficace reste notre objectif majeur. »</p></div></div>
+</section>
+
+<!-- ========== TARIFS ========== -->
+<section class="page" id="p-tarifs" data-title="Nos tarifs">
+    <div class="banner"><div class="wrap"><h1>Nos tarifs</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Nos tarifs</span></div></div></div>
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Offre financière</span><h2 class="h-title">Des tarifs clairs, sans coûts cachés</h2><p data-bind="tarifs.intro"></p></div>
+        <p class="tarif-unit" data-bind="tarifs.unite"></p>
+        <div class="price-grid" id="tarifsGrid"></div>
+    </div>
+    <div class="offre-band" id="tarifsOffre"><div class="wrap offre-inner">
+        <div class="offre-val"><b data-bind="tarifs.offre.valeur"></b><span data-bind="tarifs.offre.texte"></span></div>
+        <div class="offre-txt"><span class="eyebrow light"><i class="fas fa-star"></i> <span data-bind="tarifs.offre.titre"></span></span><h2 data-bind="tarifs.offre.echeance"></h2></div>
+        <div class="offre-btns"><a href="#devis" class="btn btn-accent"><i class="fas fa-file-signature"></i> Profiter de l'offre</a></div>
+    </div></div>
+    <div class="wrap section">
+        <div class="two-col">
+            <div><span class="eyebrow">Conditions commerciales</span><h2 class="h-title">Simple et transparent</h2><ul class="check" data-list="tarifs.conditions"></ul></div>
+            <div class="side-box dark"><i class="fas fa-file-signature"></i><h3>Devis gratuit sous 48h</h3><p>Nous visitons votre site gratuitement et vous remettons une proposition chiffrée, adaptée à vos risques.</p><a href="#devis" class="btn btn-accent" style="margin-top: 0.8rem;">Demander un devis</a><a class="side-phone" data-phone-link href="#"><span data-bind="contact.phone1"></span></a></div>
+        </div>
+    </div>
+    <div class="band247" data-band></div>
+</section>
+
+<!-- ========== RÉFÉRENCES ========== -->
+<section class="page" id="p-references" data-title="Références">
+    <div class="banner"><div class="wrap"><h1>Ils nous font confiance</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Références</span></div></div></div>
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Secteurs</span><h2 class="h-title">Les sites que nous protégeons</h2><p>Banques, ambassades, ONG, sociétés minières, industries, centres commerciaux, écoles, hôtels, chantiers, entrepôts et résidences.</p></div>
+        <div class="news-grid" id="referencesGrid"></div>
+        <p class="small-note" style="text-align: center; margin-top: 2rem;"><i class="fas fa-circle-info"></i> Certaines informations sont anonymisées lorsque la confidentialité contractuelle l'impose.</p>
+    </div>
+    <div class="band247" data-band></div>
+</section>
+
+<!-- ========== ACTUALITÉS ========== -->
+<section class="page" id="p-actualites" data-title="Actualités">
+    <div class="banner"><div class="wrap"><h1>Actualités</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Actualités</span></div></div></div>
+    <div class="wrap section"><div class="news-grid" id="actualitesGrid"></div></div>
+</section>
+
+<!-- ========== ARTICLE ========== -->
+<section class="page" id="p-article" data-title="Actualité">
+    <div class="banner"><div class="wrap"><h1>Actualités</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <a href="#actualites">Actualités</a> <i class="fas fa-angle-right"></i> <span id="artCrumb"></span></div></div></div>
+    <div class="wrap section art-layout">
+        <article class="art">
+            <span class="art-date" id="artDate"></span>
+            <h2 class="h-title" id="artTitle"></h2>
+            <figure class="art-cover" id="artCover"></figure>
+            <div class="art-body" id="artBody"></div>
+            <div id="artVideoWrap"><h3 class="h-sub"><i class="fas fa-circle-play"></i> Vidéo</h3><div class="vid-player" id="artVideo"></div></div>
+            <div id="artGalleryWrap"><h3 class="h-sub"><i class="fas fa-images"></i> Galerie photos</h3><div class="art-gallery" id="artGallery"></div></div>
+            <div id="artDocsWrap"><h3 class="h-sub"><i class="fas fa-paperclip"></i> Documents joints</h3><div class="doc-list" id="artDocs"></div></div>
+            <div class="art-share">
+                <span>Partager :</span>
+                <button id="shareNative" type="button" hidden aria-label="Partager via une application"><i class="fas fa-share-nodes"></i></button>
+                <a id="shareWa" target="_blank" rel="noopener" aria-label="Partager sur WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a id="shareFb" target="_blank" rel="noopener" aria-label="Partager sur Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="shareLi" target="_blank" rel="noopener" aria-label="Partager sur LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <button id="shareCopy" type="button" aria-label="Copier le lien"><i class="fas fa-link"></i></button>
+            </div>
+            <a href="#actualites" class="btn btn-dark"><i class="fas fa-arrow-left"></i> Toutes les actualités</a>
+        </article>
+        <aside><div class="side-box"><h3>Autres actualités</h3><div id="artSide"></div></div>
+            <div class="side-box dark"><i class="fas fa-headset"></i><h3>Besoin de sécurité ?</h3><p>Notre équipe vous répond 24h/24 et 7j/7.</p><a class="side-phone" data-phone-link href="#"><span data-bind="contact.phone1"></span></a></div></aside>
+    </div>
+    <div class="section texture" id="artSimilarWrap"><div class="wrap">
+        <div class="center-head"><span class="eyebrow">À lire aussi</span><h2 class="h-title">Articles similaires</h2></div>
+        <div class="news-grid" id="artSimilar"></div>
+    </div></div>
+</section>
+
+<!-- ========== MÉDIATHÈQUE ========== -->
+<section class="page" id="p-mediatheque" data-title="Médiathèque">
+    <div class="banner"><div class="wrap"><h1>Médiathèque</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Médiathèque</span></div></div></div>
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Photos, vidéos et documents</span><h2 class="h-title">ASG-SARL en images</h2></div>
+        <div class="filters" id="mediaFilters" role="toolbar" aria-label="Filtrer la médiathèque"></div>
+        <div class="media-grid" id="mediaGrid"></div>
+        <div style="text-align: center; margin-top: 2rem;"><button type="button" class="btn btn-dark" id="mediaMore" hidden><i class="fas fa-plus"></i> Voir plus</button></div>
+    </div>
+</section>
+
+<!-- ========== CARRIÈRES ========== -->
+<section class="page" id="p-recrutement" data-title="Carrières">
+    <div class="banner"><div class="wrap"><h1>Carrières</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Carrières</span></div></div></div>
+    <div class="wrap section about-block">
+        <div>
+            <span class="eyebrow">Rejoignez-nous</span>
+            <h2 class="h-title">Une équipe professionnelle et engagée</h2>
+            <p data-bind="recrutement.intro"></p>
+            <ul class="check" data-list="recrutement.avantages"></ul>
+            <h3 class="h-sub">Critères de recrutement</h3>
+            <ul class="check" data-list="formation.criteres"></ul>
+        </div>
+        <div class="ask-box tall"><h3>Candidature spontanée</h3><p>Envoyez votre CV et votre lettre de motivation à :</p><a id="recrutMail" class="mail-big" href="#"></a></div>
+    </div>
+    <div class="section texture"><div class="wrap">
+        <div class="center-head"><span class="eyebrow">Offres</span><h2 class="h-title">Postes ouverts</h2></div>
+        <div id="offresList"></div>
+    </div></div>
+    <div class="wrap section contact-zone" id="postuler">
+        <div>
+            <span class="eyebrow">Postuler en ligne</span>
+            <h2 class="h-title">Envoyez votre candidature</h2>
+            <p>Remplissez ce formulaire : notre service du personnel vous recontacte. Si une annonce demande un dossier physique (copie CNIB, acte de naissance…), il reste à déposer au siège.</p>
+            <ul class="check"><li>Réponse par téléphone ou WhatsApp</li><li>Candidatures spontanées acceptées</li><li>Vos données ne servent qu'au recrutement</li></ul>
+        </div>
+        <form class="devis-form" id="candForm" novalidate>
+            <div class="hp" aria-hidden="true"><label>Site web<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="row2">
+                <label>Nom et prénom(s) *<input name="contact" required autocomplete="name"></label>
+                <label>Téléphone *<input name="telephone" type="tel" required autocomplete="tel" placeholder="70 00 00 00"></label>
+            </div>
+            <div class="row2">
+                <label>Poste souhaité *<select name="poste" required id="posteSelect"><option value="">— Choisir —</option></select></label>
+                <label>Email<input name="email" type="email" autocomplete="email"></label>
+            </div>
+            <div class="row2">
+                <label>Ville / quartier<input name="ville" placeholder="Ex. Ouagadougou, Nioko 2"></label>
+                <label>Expérience en sécurité<select name="experience"><option value="">— Choisir —</option><option>Aucune</option><option>Moins d'un an</option><option>1 à 3 ans</option><option>Plus de 3 ans</option></select></label>
+            </div>
+            <label>Message (motivation, disponibilités…)<textarea name="message" rows="4"></textarea></label>
+            <label class="consent"><input type="checkbox" name="consent" required> J'accepte qu'ASG-SARL utilise ces informations pour traiter ma candidature. *</label>
+            <button type="submit" class="btn btn-accent" id="candBtn"><i class="fas fa-paper-plane"></i> Envoyer ma candidature</button>
+            <div class="form-msg" id="candMsg" role="status" tabindex="-1"></div>
+        </form>
+    </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="page" id="p-faq" data-title="Questions fréquentes">
+    <div class="banner"><div class="wrap"><h1>Questions fréquentes</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>FAQ</span></div></div></div>
+    <div class="wrap section faq-zone">
+        <div><h2 class="h-title">Vos questions, nos réponses</h2><div class="ask-box"><h3>Vous avez des questions ?</h3><p>Une préoccupation qui n'est pas abordée ici ?</p><a class="btn btn-outline" data-contact-btn href="#contact">Nous contacter</a></div></div>
+        <div class="faq" data-faq></div>
+    </div>
+</section>
+
+<!-- ========== DEMANDE DE DEVIS ========== -->
+<section class="page" id="p-devis" data-title="Demande de devis gratuit">
+    <div class="banner"><div class="wrap"><h1>Demande de devis</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <a href="#services">Nos services</a> <i class="fas fa-angle-right"></i> <span>Devis gratuit</span></div></div></div>
+
+    <div class="wrap section">
+        <div class="center-head"><span class="eyebrow">Gratuit et sans engagement</span><h2 class="h-title">Obtenez votre devis en 3 étapes</h2><p>Décrivez votre besoin : la Direction ASG-SARL vous recontacte, visite gratuitement votre site et vous remet une proposition chiffrée sous 48h.</p></div>
+        <ol class="steps">
+            <li><span>1</span><div><b>Votre demande</b><p>Vous remplissez le formulaire ci-dessous en 2 minutes.</p></div></li>
+            <li><span>2</span><div><b>Visite gratuite</b><p>Nous visitons votre site et analysons vos risques.</p></div></li>
+            <li><span>3</span><div><b>Proposition chiffrée</b><p>Vous recevez un devis détaillé et personnalisé sous 48h.</p></div></li>
+        </ol>
+
+        <div class="devis-layout">
+            <form class="devis-form" id="devisForm" novalidate>
+                <div class="hp" aria-hidden="true"><label>Site web<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+                <fieldset><legend><i class="fas fa-user"></i> 1. Vos coordonnées</legend>
+                    <div class="row2">
+                        <label>Nom de l'entreprise / organisation *<input name="entreprise" required autocomplete="organization"></label>
+                        <label>Personne à contacter *<input name="contact" required autocomplete="name"></label>
+                    </div>
+                    <div class="row2">
+                        <label>Téléphone *<input name="telephone" type="tel" required autocomplete="tel" placeholder="70 00 00 00"></label>
+                        <label>Email *<input name="email" type="email" required autocomplete="email"></label>
+                    </div>
+                    <label>Secteur d'activité *<select name="secteur" required><option value="">— Choisir —</option><option>Banque / Finance</option><option>Ambassade / Organisation internationale</option><option>ONG</option><option>Industrie / Mine</option><option>Commerce / Supermarché</option><option>Hôtel / Restaurant</option><option>Résidence / Particulier</option><option>Administration publique</option><option>Établissement scolaire / Santé</option><option>Chantier / BTP</option><option>Événementiel</option><option>Autre</option></select></label>
+                </fieldset>
+                <fieldset><legend><i class="fas fa-shield-halved"></i> 2. Votre besoin</legend>
+                    <div class="row2">
+                        <label>Service souhaité *<select name="besoin" required id="besoinSelect"><option value="">— Choisir —</option></select></label>
+                        <label>Ville / localité du site *<input name="ville" required placeholder="Ex. Ouagadougou, Nioko 2"></label>
+                    </div>
+                    <div class="row2">
+                        <label>Type de site<select name="typeSite"><option value="">— Choisir —</option><option>Bureaux</option><option>Entrepôt / Usine</option><option>Magasin / Commerce</option><option>Domicile / Villa</option><option>Chantier</option><option>Événement ponctuel</option><option>Plusieurs sites</option><option>Autre</option></select></label>
+                        <label>Nombre d'agents souhaité<select name="nbAgents"><option value="">Je ne sais pas encore</option><option>1</option><option>2 à 4</option><option>5 à 10 (remise de volume)</option><option>Plus de 10</option></select></label>
+                    </div>
+                    <div class="row2">
+                        <label>Horaires de couverture<select name="horaires"><option value="">— Choisir —</option><option>Jour uniquement</option><option>Nuit uniquement</option><option>24h/24 – 7j/7</option><option>Week-end / jours fériés</option><option>À définir</option></select></label>
+                        <label>Date de début souhaitée<input name="debut" type="date"></label>
+                    </div>
+                    <label>Durée de la prestation<select name="duree"><option value="">— Choisir —</option><option>Ponctuelle (événement, mission, escorte)</option><option>1 à 6 mois</option><option>Plus de 6 mois (sans frais d'installation)</option><option>Plus d'un an / contrat permanent</option></select></label>
+                    <label>Précisions sur votre besoin<textarea name="description" rows="5" placeholder="Description du site, risques particuliers, équipements souhaités (vidéosurveillance, alarme…)"></textarea></label>
+                </fieldset>
+                <label class="consent"><input type="checkbox" name="consent" required> J'accepte qu'ASG-SARL utilise ces informations pour me recontacter au sujet de ma demande. *</label>
+                <button type="submit" class="btn btn-accent" id="devisBtn"><i class="fas fa-paper-plane"></i> Envoyer ma demande de devis</button>
+                <div class="form-msg" id="devisMsg" role="status" tabindex="-1"></div>
+            </form>
+            <aside class="devis-side">
+                <div class="side-box dark"><i class="fas fa-headset"></i><h3>Besoin urgent ?</h3><p>Appelez directement notre service, joignable 24h/24 et 7j/7.</p><a class="side-phone" data-phone-link href="#"><span data-bind="contact.phone1"></span></a><a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener" style="display: none;"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
+                <div class="side-box offre-mini"><b data-bind="tarifs.offre.valeur"></b><div><h3 data-bind="tarifs.offre.titre"></h3><p><span data-bind="tarifs.offre.texte"></span> — <span data-bind="tarifs.offre.echeance"></span>.</p></div></div>
+                <div class="side-box"><h3>Pourquoi ASG-SARL ?</h3><ul class="check" data-list="apropos.pourquoi"></ul></div>
+                <div class="side-box"><h3>Votre référence</h3><p>Chaque demande reçoit un <b>numéro de référence</b> (ex. DEV-261014-A1B2). Notez-le : il facilite le suivi avec nos équipes.</p></div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section class="page" id="p-contact" data-title="Contact">
+    <div class="banner"><div class="wrap"><h1>Contactez-nous</h1><div class="crumbs"><a href="#accueil">Accueil</a> <i class="fas fa-angle-right"></i> <span>Contact</span></div></div></div>
+    <div class="wrap section-top">
+        <div class="contact-cards">
+            <div class="c-card"><i class="fas fa-phone"></i><h3>Téléphone</h3><p>Joignable 24h/24 – 7j/7</p><div id="contactPhones"></div></div>
+            <div class="c-card"><i class="fas fa-envelope"></i><h3>Email</h3><p>Réponse sous 24h</p><div id="contactEmails"></div></div>
+            <div class="c-card"><i class="fas fa-location-dot"></i><h3>Siège social</h3><p data-bind="contact.address"></p></div>
+        </div>
+    </div>
+    <div class="wrap section contact-zone">
+        <div>
+            <span class="eyebrow">Écrivez-nous</span>
+            <h2 class="h-title">Une question, une information ?</h2>
+            <p>Pour toute question générale, une candidature ou un partenariat, utilisez ce formulaire. Nous vous répondons rapidement.</p>
+            <a class="btn btn-whatsapp wa-link" id="waBtn" target="_blank" rel="noopener" style="display: none;"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
+            <div class="devis-cta"><i class="fas fa-file-signature"></i><div><b>Vous souhaitez un devis ?</b><p>Utilisez notre formulaire dédié, plus complet, pour recevoir une proposition chiffrée.</p><a href="#devis" class="btn btn-accent btn-sm">Demander un devis gratuit</a></div></div>
+        </div>
+        <form class="devis-form" id="msgForm" novalidate>
+            <div class="hp" aria-hidden="true"><label>Site web<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="row2">
+                <label>Nom complet *<input name="contact" required autocomplete="name"></label>
+                <label>Téléphone *<input name="telephone" type="tel" required autocomplete="tel"></label>
+            </div>
+            <div class="row2">
+                <label>Email<input name="email" type="email" autocomplete="email"></label>
+                <label>Objet *<select name="objet" required><option value="">— Choisir —</option><option>Renseignement</option><option>Candidature / emploi</option><option>Partenariat</option><option>Réclamation</option><option>Autre</option></select></label>
+            </div>
+            <label>Votre message *<textarea name="message" rows="6" required></textarea></label>
+            <button type="submit" class="btn btn-accent" id="msgBtn"><i class="fas fa-paper-plane"></i> Envoyer le message</button>
+            <div class="form-msg" id="msgMsg" role="status" tabindex="-1"></div>
+        </form>
+    </div>
+</section>
+
+</main>
+
+<!-- ========== PIED DE PAGE ========== -->
+<footer class="site-footer">
+    <div class="wrap f-grid">
+        <div class="f-col f-about">
+            <a href="#accueil" class="f-logo" aria-label="ASG-SARL – accueil"><img src="images/logo-or.png" alt="ASG – Agence de Sécurité Goudihama"></a>
+            <p>Gardiennage, sécurité électronique, cynophile, protection rapprochée, escorte, audit et formation au Burkina Faso.</p>
+            <div class="socials" id="footSocials"></div>
+            <button type="button" class="push-btn" id="pushOptIn" hidden></button>
+        </div>
+        <div class="f-col">
+            <h4>Navigation</h4>
+            <a href="#apropos">À propos</a><a href="#methode">Organisation &amp; méthode</a><a href="#tarifs">Tarifs</a><a href="#moyens">Nos moyens</a><a href="#actualites">Actualités</a><a href="#mediatheque">Médiathèque</a><a href="#presse">Espace presse</a><a href="#recrutement">Carrières</a><a href="#faq">FAQ</a>
+        </div>
+        <div class="f-col">
+            <h4>Services</h4>
+            <div id="footServices"></div>
+        </div>
+        <div class="f-col f-contact">
+            <h4>Nous joindre</h4>
+            <a class="fc-item" data-phone-link href="#"><i class="fas fa-phone"></i><span><small>Téléphone 24h/24</small><b id="footPhones"></b></span></a>
+            <a class="fc-item" id="footWa" href="#" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i><span><small>WhatsApp</small><b id="footWaTxt"></b></span></a>
+            <a class="fc-item" id="footMail" href="#"><i class="fas fa-envelope"></i><span><small>Email</small><b data-bind="contact.email"></b></span></a>
+            <div class="fc-item"><i class="fas fa-location-dot"></i><span><small>Siège social</small><b data-bind="contact.address"></b></span></div>
+        </div>
+    </div>
+    <div class="wrap f-legal-row">
+        <span class="f-chip">RCCM <b data-bind="admin.rccm" data-empty="—"></b></span><span class="f-chip">IFU <b data-bind="admin.ifu" data-empty="—"></b></span><span class="f-chip">CNSS <b data-bind="admin.cnss" data-empty="—"></b></span><span class="f-chip">Autorisation <b data-bind="admin.agrement" data-empty="—"></b></span>
+    </div>
+    <div class="f-bottom"><div class="wrap">
+        <span>© <span id="year"></span> ASG-SARL · Agence de Sécurité Goudihama</span>
+        <span class="f-links"><a href="#" data-legal="mentions">Mentions légales</a><a href="#" data-legal="cgu">CGU</a><a href="#" data-legal="privacy">Confidentialité</a><a href="admin.html" rel="nofollow">Administration</a></span>
+    </div></div>
+</footer>
+</div>
+</div>
+
+<a href="#top" class="to-top" id="toTop" aria-label="Haut de page"><i class="fas fa-arrow-up"></i></a>
+
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+    <div class="modal-box"><button class="modal-close" id="legalClose" aria-label="Fermer">&times;</button><h2 id="legalTitle"></h2><div id="legalBody"></div></div>
+</div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visionneuse">
+    <button class="lb-close" id="lbClose" aria-label="Fermer">&times;</button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+    <div class="lb-stage" id="lbStage"><img id="lbImg" alt=""><div class="lb-video" id="lbVideo"></div></div>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+    <div class="lb-bar">
+        <div class="lb-cap" id="lbCap"></div>
+        <div class="lb-share" id="lbShare">
+            <span class="lb-count" id="lbCount"></span>
+            <a id="lbWa" target="_blank" rel="noopener" aria-label="Partager sur WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a id="lbFb" target="_blank" rel="noopener" aria-label="Partager sur Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a id="lbLi" target="_blank" rel="noopener" aria-label="Partager sur LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<nav class="qbar" id="qbar" aria-label="Accès rapide">
+    <a href="#actualites" data-qtab="actualites"><i class="fas fa-bullhorn"></i><span>Communiqués</span></a>
+    <a href="#contact" data-qtab="contact"><i class="fas fa-address-book"></i><span>Contacts</span></a>
+</nav>
+<script src="local-api.js"></script>
+<script src="site-defaults.js"></script>
+<script src="public.js"></script>
+<script src="pwa.js"></script>
+</body>
+</html>

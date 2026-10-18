@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a5fae">
+<link rel="manifest" href="manifest-admin.json">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ASG Admin">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="robots" content="noindex, nofollow">
+<title>Administration - ASG-SARL</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --bleu-fonce: #0a5fae; --bleu-clair: #5aa2e6; --nuit: #062f5f; --nuit-2: #0a417f;
+    --or: #ffc20e; --or-fonce: #d99c00; --blanc: #fff; --gris: #f2f6fb; --ligne: #d6e2f0;
+    --gris-fonce: #4a5568; --texte: #1f2d3d; --rouge: #e74c3c; --vert: #27ae60; --orange: #e08e0b;
+}
+body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--gris); color: var(--texte); line-height: 1.5; }
+a { color: var(--bleu-fonce); }
+button, input, select, textarea { font-family: inherit; }
+
+/* CONNEXION */
+.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: radial-gradient(circle at 80% 20%, rgba(255,194,14,.18), transparent 40%), linear-gradient(135deg, #062f5f 0%, #0a5fae 100%); }
+.login-box { background: var(--blanc); padding: 2.5rem 2rem; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); max-width: 420px; width: 100%; }
+.login-head { text-align: center; margin-bottom: 1.8rem; }
+.login-logo { width: 190px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; }
+.login-logo i { font-size: 2.1rem; color: var(--or); }
+.login-logo img { width: 100%; height: 100%; object-fit: contain; }
+.login-head h1 { font-size: 1.35rem; color: var(--bleu-fonce); }
+.login-head p { color: var(--gris-fonce); font-size: 0.9rem; margin-top: 0.3rem; }
+.field { margin-bottom: 1rem; }
+.field label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--nuit); }
+.input-icon { position: relative; }
+.input-icon > i { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--bleu-clair); }
+.input-icon input { padding-left: 2.5rem !important; }
+.input-icon .eye { position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--gris-fonce); cursor: pointer; padding: 0.3rem; }
+.field input, .field select, .field textarea { width: 100%; padding: 0.75rem 0.85rem; border: 2px solid var(--ligne); border-radius: 8px; font-size: 0.95rem; background: var(--blanc); color: var(--texte); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--bleu-clair); }
+.field textarea { min-height: 90px; resize: vertical; }
+.field textarea.code { font-family: monospace; font-size: 0.85rem; min-height: 200px; }
+.field .help { font-size: 0.8rem; color: var(--gris-fonce); margin-top: 0.3rem; }
+.login-error { background: #fdecea; color: #b03a2e; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; display: none; }
+.login-foot { text-align: center; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--ligne); font-size: 0.85rem; }
+
+/* BOUTONS */
+.btn { padding: 0.65rem 1.15rem; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; transition: filter 0.2s, transform 0.2s; text-decoration: none; }
+.btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.btn:disabled { opacity: 0.55; cursor: wait; transform: none; }
+.btn-or { background: linear-gradient(135deg, var(--or) 0%, var(--or-fonce) 100%); color: var(--nuit); }
+.btn-vert { background: var(--vert); color: #fff; }
+.btn-bleu { background: var(--bleu-fonce); color: #fff; }
+.btn-rouge { background: var(--rouge); color: #fff; }
+.btn-gris { background: var(--blanc); color: var(--bleu-fonce); border: 1px solid var(--ligne); }
+.btn-xs { padding: 0.32rem 0.6rem; font-size: 0.78rem; border-radius: 6px; }
+.btn-full { width: 100%; padding: 0.9rem; font-size: 1rem; }
+
+/* MISE EN PAGE */
+.layout { display: none; min-height: 100vh; }
+.layout.show { display: flex; }
+.sidebar { width: 260px; background: var(--nuit); color: #fff; position: fixed; top: 0; bottom: 0; overflow-y: auto; z-index: 100; transition: transform 0.3s; }
+.side-head { padding: 1.3rem 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; gap: 10px; align-items: center; }
+.side-head .ic { width: 40px; height: 40px; border-radius: 50%; background: var(--or); color: var(--nuit); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.side-head b { color: var(--or); display: block; font-size: 0.98rem; }
+.side-head small { opacity: 0.7; font-size: 0.75rem; }
+.menu { list-style: none; padding: 0.6rem 0 2rem; }
+.menu .lab { padding: 0.9rem 1.4rem 0.3rem; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: var(--or); font-weight: 700; }
+.menu a { display: flex; align-items: center; gap: 10px; padding: 0.62rem 1.4rem; color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.9rem; border-left: 3px solid transparent; }
+.menu a:hover, .menu a.active { background: rgba(255,255,255,0.05); border-left-color: var(--or); color: var(--or); }
+.menu a i { width: 18px; text-align: center; }
+.menu .pill { margin-left: auto; background: var(--rouge); color: #fff; font-size: 0.7rem; padding: 0 7px; border-radius: 10px; }
+.menu a.out { color: #ff9b91; }
+.main { flex: 1; margin-left: 260px; padding: 1.5rem 2rem 4rem; min-width: 0; }
+.topbar { background: var(--blanc); border-radius: 12px; padding: 0.9rem 1.3rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 1.4rem; position: sticky; top: 0.6rem; z-index: 50; }
+.topbar h2 { color: var(--bleu-fonce); font-size: 1.25rem; display: flex; align-items: center; gap: 0.6rem; }
+.topbar .acts { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+.dirty { font-size: 0.82rem; color: var(--orange); font-weight: 600; display: none; }
+.dirty.show { display: inline-flex; align-items: center; gap: 5px; }
+.user-chip { font-size: 0.82rem; color: var(--gris-fonce); background: var(--gris); padding: 0.3rem 0.7rem; border-radius: 20px; }
+.burger { display: none; background: var(--nuit); color: #fff; border: none; width: 40px; height: 40px; border-radius: 8px; cursor: pointer; }
+.section { display: none; }
+.section.active { display: block; animation: fade 0.25s; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.card { background: var(--blanc); border-radius: 12px; padding: 1.4rem; margin-bottom: 1.3rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.card h3 { color: var(--bleu-fonce); font-size: 1.05rem; padding-bottom: 0.55rem; margin-bottom: 1rem; border-bottom: 2px solid var(--or); display: flex; align-items: center; gap: 0.5rem; }
+.hint { color: var(--gris-fonce); font-size: 0.87rem; margin-bottom: 1rem; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+
+/* TABLEAU DE BORD */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.3rem; }
+.kpi { background: var(--blanc); border-radius: 12px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--or); cursor: pointer; }
+.kpi:hover { transform: translateY(-2px); }
+.kpi b { font-size: 2rem; color: var(--bleu-fonce); display: block; }
+.kpi span { font-size: 0.85rem; color: var(--gris-fonce); }
+.kpi.alert { border-top-color: var(--rouge); }
+.shortcuts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.8rem; }
+.shortcut { background: var(--gris); border-radius: 10px; padding: 1rem; display: flex; gap: 0.8rem; align-items: center; cursor: pointer; border: 1px solid transparent; }
+.shortcut:hover { border-color: var(--or); }
+.shortcut i { width: 40px; height: 40px; border-radius: 10px; background: var(--bleu-fonce); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* ÉLÉMENTS DE LISTE */
+.item { background: var(--gris); border-radius: 10px; padding: 1rem; margin-bottom: 0.9rem; border-left: 4px solid var(--or); }
+.item-head { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+.item-head strong { color: var(--bleu-fonce); font-size: 0.95rem; }
+.item-head .tools { display: flex; gap: 4px; }
+.item label.s { display: block; font-size: 0.78rem; color: var(--gris-fonce); margin: 0.5rem 0 0.2rem; font-weight: 600; }
+.item input, .item select, .item textarea { width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--ligne); border-radius: 6px; font-size: 0.9rem; background: var(--blanc); color: var(--texte); }
+.item textarea { min-height: 70px; resize: vertical; }
+.item.off { opacity: 0.6; }
+.upload { border: 2px dashed var(--bleu-clair); border-radius: 8px; padding: 0.7rem; text-align: center; cursor: pointer; display: block; background: var(--blanc); margin-top: 0.5rem; font-size: 0.82rem; color: var(--gris-fonce); }
+.upload:hover { border-color: var(--or); }
+.upload input { display: none; }
+.upload.busy { opacity: 0.6; pointer-events: none; }
+.preview { display: flex; gap: 0.8rem; align-items: center; margin-top: 0.5rem; }
+.preview img { max-width: 120px; max-height: 90px; border-radius: 8px; border: 2px solid var(--or); object-fit: cover; background: #fff; }
+
+/* DEVIS */
+.filters { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.filters button.on { background: var(--bleu-fonce); color: #fff; }
+.devis { background: var(--gris); border-radius: 10px; padding: 1rem 1.1rem; margin-bottom: 0.9rem; border-left: 4px solid var(--bleu-clair); }
+.devis.nouveau { border-left-color: var(--rouge); background: #fff7f6; }
+.devis.traité { border-left-color: var(--vert); }
+.devis .row { display: flex; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
+.tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin: 0.5rem 0; }
+.tags span { background: var(--blanc); border: 1px solid var(--ligne); padding: 0.15rem 0.6rem; border-radius: 12px; font-size: 0.78rem; color: var(--gris-fonce); }
+.devis select { padding: 0.35rem; border-radius: 6px; border: 1px solid var(--ligne); }
+
+/* NOTIFICATION */
+.toast { position: fixed; bottom: 20px; right: 20px; background: var(--nuit); color: #fff; padding: 0.9rem 1.2rem; border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,0.25); z-index: 1000; max-width: 380px; display: none; border-left: 4px solid var(--vert); font-size: 0.92rem; }
+.toast.show { display: block; animation: fade 0.25s; }
+.toast.error { border-left-color: var(--rouge); }
+.loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--nuit); color: var(--or); font-size: 1.1rem; gap: 0.6rem; z-index: 2000; }
+
+@media (max-width: 860px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: none; box-shadow: 0 0 40px rgba(0,0,0,0.4); }
+    .main { margin-left: 0; padding: 1rem 0.8rem 4rem; }
+    .burger { display: inline-flex; align-items: center; justify-content: center; }
+    .grid2 { grid-template-columns: 1fr; }
+    .topbar { top: 0; border-radius: 0 0 12px 12px; }
+    .user-chip { display: none; }
+}
+.type-badge { display: inline-block; background: var(--or); color: var(--nuit); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 0.1rem 0.5rem; border-radius: 4px; }
+.type-badge.msg { background: var(--bleu-clair); color: #fff; }
+.type-badge.can { background: #2e7d4f; color: #fff; }
+code.ref { font-size: 0.8rem; background: #fff; border: 1px solid var(--ligne); padding: 0.05rem 0.4rem; border-radius: 4px; color: var(--bleu-fonce); }
+.filters button.on { background: var(--bleu-fonce); color: #fff; }
+.chk { display: flex; gap: 0.55rem; align-items: center; font-size: 0.92rem; margin: 0.45rem 0; cursor: pointer; }
+.chk input { width: auto; }
+.badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; margin-left: 0.35rem; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge.off { background: #fde2e0; color: #b03a2e; } .badge.prog { background: #e3ecf7; color: var(--bleu-fonce); } .badge.une { background: var(--or); color: var(--nuit); }
+.file-row { display: flex; gap: 0.5rem; align-items: center; margin: 0.35rem 0; }
+.file-row a { font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px; }
+.chk-list { list-style: none; font-size: 0.88rem; }
+.chk-list li { padding: 0.35rem 0; border-bottom: 1px solid var(--ligne); display: flex; gap: 0.5rem; }
+.chk-list code { font-size: 0.78rem; color: var(--gris-fonce); word-break: break-all; }
+
+/* APPLI : antizoom et confort tactile */
+html { touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+@media (max-width: 900px) { input, select, textarea { font-size: max(16px, 1em); } }
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading"><i class="fas fa-circle-notch fa-spin"></i> Chargement…</div>
+
+<!-- CONNEXION -->
+<div class="login" id="loginView" style="display: none;">
+    <div class="login-box">
+        <div class="login-head">
+            <div class="login-logo" id="loginLogo"><img src="images/logo-or.png" alt="ASG – Agence de Sécurité Goudihama"></div>
+            <h1>Administration ASG-SARL</h1>
+            <p>Connectez-vous pour gérer le site</p>
+        </div>
+        <div class="login-error" id="loginError"></div>
+        <form id="loginForm" autocomplete="on">
+            <div class="field">
+                <label for="lgUser">Identifiant</label>
+                <div class="input-icon"><i class="fas fa-user"></i><input id="lgUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+            </div>
+            <div class="field">
+                <label for="lgPass">Mot de passe</label>
+                <div class="input-icon"><i class="fas fa-lock"></i><input id="lgPass" name="password" type="password" autocomplete="current-password" required>
+                    <button type="button" class="eye" onclick="togglePwd('lgPass', this)" aria-label="Afficher le mot de passe"><i class="fas fa-eye"></i></button></div>
+            </div>
+            <button class="btn btn-or btn-full" id="loginBtn" type="submit"><i class="fas fa-sign-in-alt"></i> Se connecter</button>
+        </form>
+        <div class="login-foot"><a href="index.html"><i class="fas fa-arrow-left"></i> Retour au site</a></div>
+    </div>
+</div>
+
+<!-- PANNEAU -->
+<div class="layout" id="appView">
+    <aside class="sidebar" id="sidebar">
+        <div class="side-head"><img src="images/emblem-blanc.png" alt="" style="width: 64px; flex-shrink: 0;"><div><b>ASG-SARL</b><small>Administration du site</small></div></div>
+        <ul class="menu" id="menu">
+            <li><a href="#" data-s="dashboard" class="active"><i class="fas fa-gauge"></i> Tableau de bord</a></li>
+            <li class="lab">Contenu du site</li>
+            <li><a href="#" data-s="accueil"><i class="fas fa-house"></i> Accueil &amp; Direction</a></li>
+            <li><a href="#" data-s="apropos"><i class="fas fa-circle-info"></i> À propos</a></li>
+            <li><a href="#" data-s="services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+            <li><a href="#" data-s="moyens"><i class="fas fa-toolbox"></i> Moyens, zones &amp; PC radio</a></li>
+            <li><a href="#" data-s="methode"><i class="fas fa-sitemap"></i> Organisation &amp; méthode</a></li>
+            <li><a href="#" data-s="tarifs"><i class="fas fa-tags"></i> Tarifs &amp; offre</a></li>
+            <li><a href="#" data-s="references"><i class="fas fa-handshake"></i> Références</a></li>
+            <li><a href="#" data-s="actualites"><i class="fas fa-newspaper"></i> Actualités</a></li>
+            <li><a href="#" data-s="mediatheque"><i class="fas fa-photo-film"></i> Médiathèque</a></li>
+            <li><a href="#" data-s="presse"><i class="fas fa-newspaper"></i> Espace presse</a></li>
+            <li><a href="#" data-s="carrieres"><i class="fas fa-briefcase"></i> Carrières</a></li>
+            <li><a href="#" data-s="faq"><i class="fas fa-circle-question"></i> FAQ</a></li>
+            <li><a href="#" data-s="contact"><i class="fas fa-address-card"></i> Contact &amp; infos légales</a></li>
+            <li><a href="#" data-s="visuels"><i class="fas fa-images"></i> Photos &amp; réseaux sociaux</a></li>
+            <li><a href="#" data-s="legal"><i class="fas fa-gavel"></i> Textes légaux</a></li>
+            <li class="lab">Clients</li>
+            <li><a href="#" data-s="devis"><i class="fas fa-inbox"></i> Devis, messages &amp; candidatures <span class="pill" id="pillDevis" style="display: none;"></span></a></li>
+            <li><a href="#" data-s="notifs"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li class="lab">Paramètres</li>
+            <li><a href="#" data-s="compte"><i class="fas fa-user-lock"></i> Mon compte</a></li>
+            <li><a href="#" data-s="sauvegarde"><i class="fas fa-database"></i> Sauvegarde &amp; contrôle</a></li>
+            <li><a href="index.html" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square"></i> Voir le site</a></li>
+            <li><a href="#" class="out" onclick="logout(); return false;"><i class="fas fa-right-from-bracket"></i> Déconnexion</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h2><button class="burger" onclick="$('sidebar').classList.toggle('open')" aria-label="Menu"><i class="fas fa-bars"></i></button><span id="pageTitle">Tableau de bord</span></h2>
+            <div class="acts">
+                <span class="user-chip"><i class="fas fa-user"></i> <span id="userName"></span></span>
+                <span class="dirty" id="dirty"><i class="fas fa-circle"></i> Modifications non publiées</span>
+                <button class="btn btn-vert" id="saveBtn" onclick="save()"><i class="fas fa-cloud-arrow-up"></i> Publier</button>
+            </div>
+        </div>
+
+        <!-- TABLEAU DE BORD -->
+        <section class="section active" id="s-dashboard">
+            <div class="kpis" id="kpis"></div>
+            <div class="card">
+                <h3><i class="fas fa-bolt"></i> Accès rapides</h3>
+                <div class="shortcuts">
+                    <div class="shortcut" onclick="show('actualites'); addItem('actualites')"><i class="fas fa-plus"></i><div><b>Publier une actualité</b><br><small>Nouvelle carte en tête de liste</small></div></div>
+                    <div class="shortcut" onclick="show('mediatheque'); addItem('mediatheque')"><i class="fas fa-image"></i><div><b>Ajouter une photo / vidéo</b><br><small>Médiathèque</small></div></div>
+                    <div class="shortcut" onclick="show('carrieres'); addItem('offres')"><i class="fas fa-briefcase"></i><div><b>Publier une offre d'emploi</b><br><small>Page Carrières</small></div></div>
+                    <div class="shortcut" onclick="show('devis')"><i class="fas fa-inbox"></i><div><b>Devis &amp; messages</b><br><small>Demandes des clients</small></div></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-circle-info"></i> Comment ça marche</h3>
+                <p class="hint" style="margin: 0;">Modifiez le contenu dans les rubriques à gauche, puis cliquez sur <b>« Publier »</b> en haut à droite : les changements apparaissent immédiatement sur le site pour tous les visiteurs. Tant que vous n'avez pas publié, rien n'est visible en ligne.</p>
+            </div>
+        </section>
+
+        <!-- ACCUEIL -->
+        <section class="section" id="s-accueil">
+            <div class="card"><h3><i class="fas fa-house"></i> Bandeau d'accueil</h3>
+                <div class="field"><label>Titre principal</label><input data-path="hero.title"></div>
+                <div class="field"><label>Slogan</label><input data-path="hero.slogan"></div>
+                <div class="field"><label>Texte d'introduction</label><textarea data-path="hero.intro" rows="4"></textarea></div>
+            </div>
+
+            <div class="card"><h3><i class="fas fa-user-tie"></i> Directeur Général</h3>
+                <div class="grid2"><div class="field"><label>Nom</label><input data-path="pdg.name"></div><div class="field"><label>Fonction</label><input data-path="pdg.title"></div></div>
+                <div class="field"><label>Citation (coin du directeur sur l'accueil)</label><textarea data-path="pdg.quote" rows="2"></textarea></div>
+                <div class="field"><label>Mot du Directeur Général (page À propos — paragraphes séparés par une ligne vide)</label><textarea data-path="pdg.mot" rows="10"></textarea></div>
+                <div class="grid2"><div><label style="font-weight: 600; font-size: 0.9rem;">Photo (coin du directeur à l'accueil)</label><div data-image="pdg.photo" data-max="900"></div></div><div><label style="font-weight: 600; font-size: 0.9rem;">Photo (page À propos)</label><div data-image="pdg.photo2" data-max="900"></div></div></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-eye"></i> Sections affichées sur l'accueil</h3>
+                <p class="hint">Décochez une section pour la masquer sans perdre son contenu. N'affichez les chiffres que s'ils ont été validés par la direction.</p>
+                <label class="chk"><input type="checkbox" data-path="video.afficher"> Vidéo institutionnelle</label>
+                <label class="chk"><input type="checkbox" data-path="afficher.stats"> Chiffres clés (bande jaune)</label>
+                <label class="chk"><input type="checkbox" data-path="afficher.raisons"> « Sept raisons de nous choisir »</label>
+                <label class="chk"><input type="checkbox" data-path="afficher.offre"> Bandeau de l'offre de lancement (accueil, tarifs, devis)</label>
+                <label class="chk"><input type="checkbox" data-path="afficher.mediaAccueil"> Aperçu de la médiathèque</label>
+                <label class="chk"><input type="checkbox" data-path="afficher.competences"> Barres de compétences (page À propos)</label>
+            </div>
+            <div class="card"><h3><i class="fas fa-circle-play"></i> Vidéo institutionnelle</h3>
+                <p class="hint">Collez le lien YouTube (ou Facebook) de la vidéo officielle. La vidéo ne se charge que lorsque le visiteur clique sur « Lecture » : le site reste rapide et aucun son ne démarre tout seul. Sans lien, l'image ci-dessous s'affiche avec la mention « bientôt disponible ».</p>
+                <div class="field"><label>Titre</label><input data-path="video.titre"></div>
+                <div class="field"><label>Texte</label><textarea data-path="video.texte" rows="2"></textarea></div>
+                <div class="field"><label>Lien de la vidéo</label><input data-path="video.url" placeholder="https://www.youtube.com/watch?v=…"><div class="help" id="videoCheck"></div></div>
+                <label class="chk"><input type="checkbox" data-path="video.sousTitres"> Afficher les sous-titres automatiquement (s'ils existent sur YouTube)</label>
+                <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-top: 0.8rem;">Image d'aperçu / de remplacement</label><div data-image="video.poster" data-max="1600"></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-chart-simple"></i> Chiffres clés</h3><p class="hint">Uniquement des chiffres réels et validés (nombre d'agents, de sites, d'années…).</p><div id="l-stats"></div><button class="btn btn-gris" onclick="addItem('stats')"><i class="fas fa-plus"></i> Ajouter un chiffre</button></div>
+        </section>
+
+
+        <section class="section" id="s-apropos">
+            <div class="card"><h3><i class="fas fa-circle-info"></i> Qui sommes-nous ?</h3>
+                <div class="grid2"><div class="field"><label>Badge sur la photo : valeur</label><input data-path="apropos.annees" placeholder="24h/24"></div><div class="field"><label>Badge : libellé</label><input data-path="apropos.badgeLabel" placeholder="Disponibilité opérationnelle"></div></div>
+                <div class="field"><label>Paragraphe 1</label><textarea data-path="apropos.intro1" rows="4"></textarea></div>
+                <div class="field"><label>Paragraphe 2</label><textarea data-path="apropos.intro2" rows="4"></textarea></div>
+                <div class="field"><label>Pourquoi nous choisir ? (un point par ligne)</label><textarea data-path="apropos.pourquoi" data-lines="1" rows="4"></textarea></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-bullseye"></i> Mission, vision, valeurs, objectifs</h3>
+                <div class="field"><label>Mission</label><textarea data-path="apropos.mission" rows="3"></textarea></div>
+                <div class="field"><label>Vision</label><textarea data-path="apropos.vision" rows="3"></textarea></div>
+                <div class="field"><label>Valeurs</label><textarea data-path="apropos.valeurs" rows="3"></textarea></div>
+                <div class="field"><label>Objectifs (un par ligne)</label><textarea data-path="apropos.objectifs" data-lines="1" rows="5"></textarea></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-chart-bar"></i> Bloc « Expérience » et compétences</h3>
+                <div class="field"><label>Titre</label><input data-path="expertise.titre"></div>
+                <div class="field"><label>Texte</label><textarea data-path="expertise.texte" rows="3"></textarea></div>
+                <label style="font-weight: 600; font-size: 0.9rem;">Barres de compétences (pourcentage de 0 à 100)</label>
+                <div id="l-competences"></div><button class="btn btn-gris" onclick="addItem('competences')"><i class="fas fa-plus"></i> Ajouter une barre</button>
+            </div>
+            <div class="card"><h3><i class="fas fa-gem"></i> Valeurs (cartes de l'accueil)</h3><div id="l-valeurs"></div><button class="btn btn-gris" onclick="addItem('valeurs')"><i class="fas fa-plus"></i> Ajouter une valeur</button></div>
+            <div class="card"><h3><i class="fas fa-list-ol"></i> Raisons de choisir ASG (accueil)</h3><div id="l-raisons"></div><button class="btn btn-gris" onclick="addItem('raisons')"><i class="fas fa-plus"></i> Ajouter une raison</button></div>
+            <div class="card"><h3><i class="fas fa-clock"></i> Bandeau « 24h/24 »</h3>
+                <div class="field"><label>Titre</label><input data-path="bandeau247.titre"></div>
+                <div class="field"><label>Texte</label><input data-path="bandeau247.texte"></div>
+            </div>
+        </section>
+
+        <section class="section" id="s-visuels">
+            <div class="card"><h3><i class="fas fa-images"></i> Photos du site</h3>
+                <p class="hint">De vraies photos des agents ASG en tenue jaune et de vos sites rendent le site beaucoup plus crédible. Format paysage conseillé. Sans photo, un fond bleu avec l'emblème ASG est affiché.</p>
+                <div class="grid2">
+                    <div class="field"><label>Grande photo d'accueil</label><div data-image="images.hero" data-max="1900"></div></div>
+                    <div class="field"><label>Photo des bandeaux de pages</label><div data-image="images.banniere" data-max="1900"></div></div>
+                    <div class="field"><label>Photo « Qui sommes-nous ? »</label><div data-image="images.apropos" data-max="1400"></div></div>
+                </div>
+            </div>
+            <div class="card"><h3><i class="fas fa-share-nodes"></i> Réseaux sociaux</h3>
+                <p class="hint">Laissez vide pour masquer l'icône.</p>
+                <div class="grid2">
+                    <div class="field"><label><i class="fab fa-facebook"></i> Facebook (lien de la page)</label><input data-path="social.facebook" placeholder="https://facebook.com/…"></div>
+                    <div class="field"><label><i class="fab fa-linkedin"></i> LinkedIn</label><input data-path="social.linkedin"></div>
+                    <div class="field"><label><i class="fab fa-youtube"></i> YouTube</label><input data-path="social.youtube"></div>
+                    <div class="field"><label><i class="fab fa-tiktok"></i> TikTok</label><input data-path="social.tiktok"></div>
+                    <div class="field"><label><i class="fab fa-whatsapp"></i> Numéro WhatsApp (avec indicatif)</label><input data-path="social.whatsapp" placeholder="22676525294"><div class="help">Chiffres uniquement, avec l'indicatif 226. Ajoute un bouton WhatsApp sur la page Contact.</div></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="s-services"><div class="card"><h3><i class="fas fa-concierge-bell"></i> Services</h3><p class="hint">Chaque service apparaît sous forme de carte. L'image remplace l'icône si vous en ajoutez une.</p><div id="l-services"></div><button class="btn btn-gris" onclick="addItem('services')"><i class="fas fa-plus"></i> Ajouter un service</button></div></section>
+
+        <section class="section" id="s-moyens">
+            <div class="card"><h3><i class="fas fa-toolbox"></i> Page « Nos moyens et équipements »</h3>
+                <div class="field"><label>Texte d'introduction</label><textarea data-path="moyensIntro" rows="3"></textarea></div>
+                <p class="hint" style="margin: 0;"><i class="fas fa-triangle-exclamation"></i> Ne publiez jamais d'information sensible : emplacements de caméras chez un client, codes, plans, procédures opérationnelles.</p>
+            </div>
+            <div class="card"><h3><i class="fas fa-toolbox"></i> Moyens matériels</h3><div id="l-moyens"></div><button class="btn btn-gris" onclick="addItem('moyens')"><i class="fas fa-plus"></i> Ajouter un équipement</button></div>
+            <div class="card"><h3><i class="fas fa-map-location-dot"></i> Zones géographiques</h3><div id="l-zones"></div><button class="btn btn-gris" onclick="addItem('zones')"><i class="fas fa-plus"></i> Ajouter une zone</button></div>
+            <div class="card"><h3><i class="fas fa-tower-broadcast"></i> Poste de Commandement radio (page Services)</h3><div class="field"><textarea data-path="cso" rows="5"></textarea></div></div>
+        </section>
+
+        <section class="section" id="s-references"><div class="card"><h3><i class="fas fa-handshake"></i> Références</h3><div id="l-references"></div><button class="btn btn-gris" onclick="addItem('references')"><i class="fas fa-plus"></i> Ajouter une référence</button></div></section>
+
+        <section class="section" id="s-actualites"><div class="card"><h3><i class="fas fa-newspaper"></i> Actualités</h3><p class="hint">L'ordre ici est celui du site : la première carte s'affiche en premier.</p><div id="l-actualites"></div><button class="btn btn-gris" onclick="addItem('actualites')"><i class="fas fa-plus"></i> Ajouter une actualité</button></div></section>
+
+        <section class="section" id="s-mediatheque">
+            <div class="card"><h3><i class="fas fa-photo-film"></i> Photos, vidéos et documents</h3>
+                <p class="hint"><b>Photo ou album</b> : une photo principale, puis autant de photos que vous voulez dans l'album (elles sont réduites automatiquement). <b>Vidéo</b> : collez le lien YouTube ou Facebook ; la miniature YouTube est utilisée si vous n'ajoutez pas d'image. <b>Document</b> : envoyez un PDF (10 Mo max). Ne publiez que des photos et vidéos dont ASG-SARL a l'autorisation de diffusion.</p>
+                <div id="l-mediatheque"></div><button class="btn btn-gris" onclick="addItem('mediatheque')"><i class="fas fa-plus"></i> Ajouter un média</button></div>
+            <div class="card"><h3><i class="fas fa-tags"></i> Catégories de la médiathèque</h3>
+                <p class="hint">Renommez, réordonnez ou masquez les catégories. Une catégorie masquée n'apparaît plus dans les filtres, mais ses médias restent visibles dans « Tout ».</p>
+                <div id="l-mediaCats"></div><button class="btn btn-gris" onclick="addItem('mediaCats')"><i class="fas fa-plus"></i> Ajouter une catégorie</button></div>
+        </section>
+
+        <section class="section" id="s-presse">
+            <div class="card"><h3><i class="fas fa-newspaper"></i> Espace presse</h3>
+                <div class="field"><label>Texte d'introduction</label><textarea data-path="presse.intro" rows="3"></textarea></div>
+                <p class="hint" style="margin-bottom: 0.4rem;">Contact du service communication (laissez vide pour afficher les coordonnées générales) :</p>
+                <div class="grid2"><div class="field"><label>Nom / service</label><input data-path="presse.contactNom"></div><div class="field"><label>Téléphone</label><input data-path="presse.contactTel"></div></div>
+                <div class="field"><label>Email</label><input type="email" data-path="presse.contactEmail"></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-download"></i> Ressources (logos, photos, communiqués, documents, vidéos)</h3>
+                <div id="l-presse"></div><button class="btn btn-gris" onclick="addItem('presse')"><i class="fas fa-plus"></i> Ajouter une ressource</button></div>
+        </section>
+
+        <section class="section" id="s-methode">
+            <div class="card"><h3><i class="fas fa-sitemap"></i> Organisation</h3>
+                <div class="field"><label>Introduction</label><textarea data-path="organisation.intro" rows="3"></textarea></div>
+                <div class="field"><label>Les agents opérationnels (un paragraphe par ligne)</label><textarea data-path="organisation.agents" data-lines="1" rows="5"></textarea></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-users"></i> Équipe (direction et encadrement)</h3><p class="hint">Niveau « Direction administrative » ou « Encadrement technique ». La photo est facultative : sans photo, les initiales s'affichent.</p><div id="l-equipe"></div><button class="btn btn-gris" onclick="addItem('equipe')"><i class="fas fa-plus"></i> Ajouter une personne</button></div>
+            <div class="card"><h3><i class="fas fa-graduation-cap"></i> Recrutement &amp; formation</h3>
+                <div class="field"><label>Introduction</label><textarea data-path="formation.intro" rows="3"></textarea></div>
+                <div class="field"><label>Critères de recrutement (un par ligne — aussi affichés sur la page Carrières)</label><textarea data-path="formation.criteres" data-lines="1" rows="5"></textarea></div>
+                <div class="field"><label>Modules de formation (un par ligne)</label><textarea data-path="formation.modules" data-lines="1" rows="12"></textarea></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-route"></i> Méthodologie opérationnelle</h3>
+                <div class="field"><label>Disponibilité 24h/24</label><textarea data-path="methode.dispo" rows="3"></textarea></div>
+                <div class="grid2"><div class="field"><label>Contrôle programmé</label><textarea data-path="methode.controleProgramme" rows="4"></textarea></div><div class="field"><label>Contrôle inopiné</label><textarea data-path="methode.controleInopine" rows="4"></textarea></div></div>
+                <div class="field"><label>Plan de patrouille et d'intervention</label><textarea data-path="methode.patrouille" rows="3"></textarea></div>
+                <div class="field"><label>Registres tenus sur chaque poste (un par ligne)</label><textarea data-path="methode.registres" data-lines="1" rows="5"></textarea></div>
+                <div class="field"><label>Note sous les horaires</label><input data-path="methode.horairesNote"></div>
+            </div>
+            <div class="card"><h3><i class="far fa-clock"></i> Horaires de travail</h3><div id="l-horaires"></div><button class="btn btn-gris" onclick="addItem('horaires')"><i class="fas fa-plus"></i> Ajouter une ligne</button></div>
+            <div class="card"><h3><i class="fas fa-shirt"></i> Dotation annuelle des agents</h3><div id="l-dotation"></div><button class="btn btn-gris" onclick="addItem('dotation')"><i class="fas fa-plus"></i> Ajouter un article</button></div>
+        </section>
+
+        <section class="section" id="s-tarifs">
+            <div class="card"><h3><i class="fas fa-tags"></i> Page Tarifs</h3>
+                <div class="field"><label>Introduction</label><textarea data-path="tarifs.intro" rows="3"></textarea></div>
+                <div class="field"><label>Mention au-dessus des tarifs</label><input data-path="tarifs.unite"></div>
+                <label class="chk"><input type="checkbox" data-path="tarifs.afficherPrix" data-off> Afficher les montants sur le site</label>
+                <p class="hint">Décoché (réglage actuel par défaut) : chaque carte affiche « Sur devis » avec le bouton « Demander un devis », et les montants cités dans les textes (FAQ, pages services, accueil) sont masqués. Les montants saisis ci-dessous sont conservés et réapparaissent si vous cochez la case.</p>
+            </div>
+            <div class="card"><h3><i class="fas fa-money-bill-wave"></i> Grille tarifaire</h3><p class="hint">Écrivez « à partir de 100 000 F CFA » ou « Sur devis ». Les montants sont mis en valeur automatiquement.</p><div id="l-tarifs"></div><button class="btn btn-gris" onclick="addItem('tarifs')"><i class="fas fa-plus"></i> Ajouter une prestation</button></div>
+            <div class="card"><h3><i class="fas fa-handshake"></i> Conditions commerciales</h3><div class="field"><label>Une condition par ligne</label><textarea data-path="tarifs.conditions" data-lines="1" rows="6"></textarea></div></div>
+            <div class="card"><h3><i class="fas fa-star"></i> Offre de lancement</h3>
+                <p class="hint">Visible sur l'accueil, la page Tarifs et la page Devis. Décochez « Bandeau de l'offre » dans « Accueil &amp; Direction » pour la retirer quand elle expire.</p>
+                <div class="grid2"><div class="field"><label>Titre</label><input data-path="tarifs.offre.titre"></div><div class="field"><label>Valeur (grand chiffre)</label><input data-path="tarifs.offre.valeur" placeholder="−15 %"></div></div>
+                <div class="grid2"><div class="field"><label>Texte sous la valeur</label><input data-path="tarifs.offre.texte"></div><div class="field"><label>Conditions / échéance</label><input data-path="tarifs.offre.echeance"></div></div>
+            </div>
+        </section>
+
+        <section class="section" id="s-carrieres">
+            <div class="card"><h3><i class="fas fa-briefcase"></i> Présentation</h3>
+                <div class="field"><label>Texte d'introduction</label><textarea data-path="recrutement.intro" rows="2"></textarea></div>
+                <div class="field"><label>Avantages (un par ligne)</label><textarea data-path="recrutement.avantages" data-lines="1" rows="4"></textarea></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-list-check"></i> Offres d'emploi</h3><p class="hint">Décochez « En ligne » pour masquer une offre sans la supprimer.</p><div id="l-offres"></div><button class="btn btn-gris" onclick="addItem('offres')"><i class="fas fa-plus"></i> Ajouter une offre</button></div>
+        </section>
+
+        <section class="section" id="s-faq"><div class="card"><h3><i class="fas fa-circle-question"></i> Questions fréquentes</h3><div id="l-faq"></div><button class="btn btn-gris" onclick="addItem('faq')"><i class="fas fa-plus"></i> Ajouter une question</button></div></section>
+
+        <section class="section" id="s-contact">
+            <div class="card"><h3><i class="fas fa-address-card"></i> Coordonnées</h3>
+                <div class="grid2"><div class="field"><label>Téléphone 1 (principal)</label><input data-path="contact.phone1"></div><div class="field"><label>Téléphone 2</label><input data-path="contact.phone2"></div></div>
+                <div class="field" style="max-width: 50%;"><label>Téléphone 3</label><input data-path="contact.phone3"></div>
+                <div class="grid2"><div class="field"><label>Email de contact</label><input type="email" data-path="contact.email"></div><div class="field"><label>Email de recrutement</label><input type="email" data-path="contact.emailRecrutement"></div></div>
+                <div class="field"><label>Adresse du siège</label><input data-path="contact.address"></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-building"></i> Informations légales (pied de page)</h3>
+                <div class="grid2"><div class="field"><label>RCCM</label><input data-path="admin.rccm"></div><div class="field"><label>IFU</label><input data-path="admin.ifu"></div></div>
+                <div class="grid2"><div class="field"><label>CNSS</label><input data-path="admin.cnss"></div><div class="field"><label>Capital social</label><input data-path="admin.capital"></div></div>
+                <div class="field"><label>Arrêté d'autorisation</label><input data-path="admin.agrement"></div>
+                <div class="grid2"><div class="field"><label>Forme juridique</label><input data-path="admin.forme"></div><div class="field"><label>Régime fiscal</label><input data-path="admin.regime"></div></div>
+            </div>
+        </section>
+
+        <section class="section" id="s-legal">
+            <div class="card"><h3><i class="fas fa-file-contract"></i> Mentions légales</h3><div class="field"><textarea class="code" data-path="legal.mentions"></textarea><div class="help">HTML simple : &lt;h3&gt;Titre&lt;/h3&gt;, &lt;p&gt;Paragraphe&lt;/p&gt;, &lt;ul&gt;&lt;li&gt;…&lt;/li&gt;&lt;/ul&gt;</div></div></div>
+            <div class="card"><h3><i class="fas fa-file-lines"></i> Conditions générales d'utilisation</h3><div class="field"><textarea class="code" data-path="legal.cgu"></textarea></div></div>
+            <div class="card"><h3><i class="fas fa-user-shield"></i> Politique de confidentialité</h3><div class="field"><textarea class="code" data-path="legal.privacy"></textarea></div></div>
+        </section>
+
+        <section class="section" id="s-devis">
+            <div class="card"><h3><i class="fas fa-inbox"></i> Demandes de devis, messages et candidatures</h3>
+                <div class="filters" id="devisFilters">
+                    <button class="btn btn-gris btn-xs on" data-t="tous">Devis + messages</button>
+                    <button class="btn btn-gris btn-xs" data-t="devis"><i class="fas fa-file-signature"></i> Devis</button>
+                    <button class="btn btn-gris btn-xs" data-t="message"><i class="fas fa-envelope"></i> Messages</button>
+                    <button class="btn btn-gris btn-xs" data-t="candidature"><i class="fas fa-user-plus"></i> Candidatures</button>
+                    <span style="width: 1px; background: var(--ligne); margin: 0 0.3rem;"></span>
+                    <button class="btn btn-gris btn-xs on" data-f="tous">Toutes</button>
+                    <button class="btn btn-gris btn-xs" data-f="nouveau">Nouvelles</button>
+                    <button class="btn btn-gris btn-xs" data-f="en cours">En cours</button>
+                    <button class="btn btn-gris btn-xs" data-f="traité">Traitées</button>
+                    <button class="btn btn-gris btn-xs" onclick="loadDevis()" style="margin-left: auto;"><i class="fas fa-rotate"></i> Actualiser</button>
+                </div>
+                <div id="devisList"></div>
+            </div>
+        </section>
+
+        <section class="section" id="s-notifs">
+            <div class="card" style="max-width: 640px;"><h3><i class="fas fa-bell"></i> Envoyer une notification</h3>
+                <p class="hint">Le message s'affiche sur le téléphone ou l'ordinateur des visiteurs qui ont activé les notifications (bouton « Recevoir nos actualités » en bas du site). <b id="pushCount"></b></p>
+                <form onsubmit="sendPush(event)">
+                    <div class="field"><label>Titre</label><input id="pushTitle" maxlength="80" required placeholder="Ex. : Nouvelle actualité ASG-SARL"><div class="help">80 caractères maximum.</div></div>
+                    <div class="field"><label>Message</label><textarea id="pushBody" rows="3" maxlength="200" required placeholder="Ex. : Découvrez notre nouvelle offre de gardiennage."></textarea><div class="help">200 caractères maximum. Restez court : le message est coupé sur certains téléphones.</div></div>
+                    <div class="field"><label>Page ouverte au toucher</label>
+                        <select id="pushUrl">
+                            <option value="/">Accueil</option>
+                            <option value="/actualites">Actualités</option>
+                            <option value="/services">Services</option>
+                            <option value="/tarifs">Tarifs</option>
+                            <option value="/carrieres">Carrières</option>
+                            <option value="/devis">Demande de devis</option>
+                            <option value="/contact">Contact</option>
+                        </select></div>
+                    <button class="btn btn-or" type="submit" id="pushSendBtn"><i class="fas fa-paper-plane"></i> Envoyer à tous les abonnés</button>
+                    <div class="help" id="pushStatus" style="margin-top: 0.7rem;"></div>
+                </form>
+            </div>
+        </section>
+
+        <section class="section" id="s-compte">
+            <div class="card" style="max-width: 560px;"><h3><i class="fas fa-user-lock"></i> Identifiant et mot de passe</h3>
+                <p class="hint">Changer le mot de passe déconnecte automatiquement toutes les autres sessions ouvertes.</p>
+                <form onsubmit="changeAccount(event)">
+                    <div class="field"><label>Identifiant</label><input id="acUser" autocomplete="username" autocapitalize="none"></div>
+                    <div class="field"><label>Mot de passe actuel</label><input id="acCurrent" type="password" autocomplete="current-password" required></div>
+                    <div class="field"><label>Nouveau mot de passe</label><input id="acNew" type="password" autocomplete="new-password" minlength="10" required><div class="help">10 caractères minimum.</div></div>
+                    <div class="field"><label>Confirmer le nouveau mot de passe</label><input id="acConfirm" type="password" autocomplete="new-password" required></div>
+                    <button class="btn btn-or" type="submit" id="acBtn"><i class="fas fa-save"></i> Enregistrer</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="section" id="s-sauvegarde">
+            <div class="card"><h3><i class="fas fa-stethoscope"></i> Vérifier les médias</h3>
+                <p class="hint">Teste toutes les images, vidéos et documents utilisés sur le site et signale ceux qui ne s'affichent plus.</p>
+                <button class="btn btn-bleu" onclick="checkMedia()" id="checkBtn"><i class="fas fa-magnifying-glass"></i> Lancer la vérification</button>
+                <div id="checkResult" style="margin-top: 1rem;"></div>
+            </div>
+            <div class="card"><h3><i class="fas fa-database"></i> Sauvegarde du contenu</h3>
+                <p class="hint">Téléchargez régulièrement une copie du contenu du site. Une sauvegarde importée doit ensuite être publiée.</p>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button class="btn btn-bleu" onclick="exportJson()"><i class="fas fa-download"></i> Télécharger la sauvegarde</button>
+                    <label class="btn btn-gris" style="cursor: pointer;"><i class="fas fa-upload"></i> Importer une sauvegarde<input type="file" accept=".json,application/json" hidden onchange="importJson(this)"></label>
+                    <button class="btn btn-rouge" onclick="resetDefaults()"><i class="fas fa-rotate-left"></i> Revenir au contenu d'origine</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="local-api.js"></script>
+<script src="site-defaults.js"></script>
+<script src="admin.js"></script>
+<script src="pwa.js"></script>
+</body>
+</html>
